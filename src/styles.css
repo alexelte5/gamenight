@@ -1,1 +1,122 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1c26;
+  --option-bg: #272a38;
+  --border: #1e2028;
+
+  --active: #2a8bab;
+  --active-bg: #0d2533;
+  --correct: #1d9e75;
+  --correct-bg: #0f2e22;
+  --wrong: #e24b4a;
+  --wrong-bg: #2a1010;
+  --text: #e8e6de;
+  --text-muted: #888780;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  width: 100vw;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.main {
+  height: 100vh;
+  width: 100vw;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+  height: 10%;
+}
+
+.footer {
+  height: 10%;
+  display: flex;
+  gap: 2%;
+  justify-content: end;
+  margin-right: 5%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 80%;
+  justify-self: center;
+}
+
+.btn {
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  background-color: var(--surface);
+  color: var(--text);
+  width: 12%;
+  height: 50%;
+  font-size: 1rem;
+}
+
+.btn-icon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:disabled {
+  color: var(--text-muted);
+  background-color: var(--bg);
+  cursor: default;
+}
+
+.dialog-btn {
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  background-color: var(--surface);
+  color: var(--text);
+  width: 50%;
+  font-size: 1em;
+}
+
+.dialog-btn:hover {
+  cursor: pointer;
+}
+
+.disable-text-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--surface);
+  color: var(--text);
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+  }
+}

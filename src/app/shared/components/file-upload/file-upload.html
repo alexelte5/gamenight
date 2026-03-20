@@ -1,0 +1,14 @@
+<div>
+  <label for="file">Hier die Excel-Datei mit allen Kategorien & Antworten hochladen</label>
+  <button class="custom-upload" (click)="fileInput.click()">Datei auswählen</button>
+  <input
+    #fileInput
+    type="file"
+    id="file"
+    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    (change)="onFileChange($event)"
+  />
+  @if (fileName !== '') {
+    <h1>{{ fileName }}</h1>
+  }
+</div>

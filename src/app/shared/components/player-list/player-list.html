@@ -1,0 +1,49 @@
+<div class="player-bar disable-text-selection">
+  @for (player of playerList(); track player) {
+    <div
+      class="player-card"
+      [class.eliminated]="player.health === 0"
+      (dblclick)="reduceHealth(player)"
+    >
+      <div class="player-name">
+        {{ player.name }}
+        @if (round() == 0) {
+          <button class="btn-icon" (click)="deletePlayer(player)">💀</button>
+        }
+      </div>
+      <div class="player-hearts">
+        @for (_ of [].constructor(player.health); track $index) {
+          <span class="heart">❤️</span>
+        }
+        @for (_ of [].constructor(maxHealth - player.health); track $index) {
+          <span>🩶</span>
+        }
+      </div>
+      <div class="player-points">
+        <span>{{ player.points }}</span> pts
+      </div>
+    </div>
+  }
+  @if (round() == 0) {
+    <div class="player-add-card" (click)="openAdd()">
+      <div class="player-name">Spieler hinzufügen</div>
+      <div class="player-plus">
+        <span>➕</span>
+      </div>
+    </div>
+  }
+</div>
+
+<dialog #dialogAdd>
+  <h1>Spieler hinzufügen</h1>
+  <div class="inputs">
+    <div class="input">
+      <label for="name">Name</label>
+      <input type="text" id="name" [formControl]="name" (keydown.enter)="save()" />
+    </div>
+  </div>
+  <div class="footer">
+    <button class="dialog-btn" (click)="save()">Speichern</button>
+    <button class="dialog-btn" (click)="closeAdd()">Abbrechen</button>
+  </div>
+</dialog>

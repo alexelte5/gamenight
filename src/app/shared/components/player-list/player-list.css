@@ -1,0 +1,95 @@
+.player-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  width: 100%;
+}
+
+.player-card {
+  background: var(--surface);
+  border: 1px solid var(--text-muted);
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  flex: 1;
+  max-width: 200px;
+}
+
+.player-card.eliminated {
+  opacity: 0.35;
+}
+
+.player-name {
+  font-size: 30px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.heart {
+  color: #ff4d6d;
+  font-size: 25px;
+}
+.heart-lost {
+  color: #2a2a2a;
+  font-size: 25px;
+}
+
+.player-points {
+  font-size: 25px;
+  color: var(--text-muted);
+}
+
+.player-add-card {
+  background: transparent;
+  border: 1px dashed var(--text-muted);
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  flex: 1;
+  max-width: 200px;
+  cursor: pointer;
+}
+
+.player-plus {
+  font-size: 33px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 3em;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 0;
+}
+
+input {
+  height: 2em;
+  font-size: 1em;
+  background-color: var(--bg);
+  border: 1px solid var(--text-muted);
+  border-radius: 5px;
+  color: var(--text);
+  padding-left: 0.5em;
+}

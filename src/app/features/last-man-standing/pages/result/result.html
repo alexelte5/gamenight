@@ -1,0 +1,55 @@
+<main>
+  <div class="header">
+    <h1 (click)="router.navigateByUrl('/')" style="cursor: pointer">Last Man Standing</h1>
+    <h1 class="winner-title">Gewinner 🏆</h1>
+    <h1></h1>
+  </div>
+  <div class="stage">
+    <div class="podium-wrap">
+      <div class="podium-slot slot-2">
+        <div class="podium-player player-anim" style="animation-delay: 0.5s">
+          <div class="podium-medal">🥈</div>
+          <div class="podium-name">{{ sorted[1]?.name }}</div>
+          <div class="podium-pts">{{ sorted[1]?.points }} pts</div>
+        </div>
+        <div class="podium-block block-anim" style="animation-delay: 0.1s">
+          <span class="podium-rank">2</span>
+        </div>
+      </div>
+
+      <div class="podium-slot slot-1">
+        <div class="podium-player player-anim" style="animation-delay: 0.7s">
+          <div class="podium-medal">🥇</div>
+          <div class="podium-name">{{ sorted[0]?.name }}</div>
+          <div class="podium-pts">{{ sorted[0]?.points }} pts</div>
+        </div>
+        <div class="podium-block block-anim winner-glow" style="animation-delay: 0.3s">
+          <span class="podium-rank">1</span>
+        </div>
+      </div>
+
+      <div class="podium-slot slot-3">
+        <div class="podium-player player-anim" style="animation-delay: 0.9s">
+          <div class="podium-medal">🥉</div>
+          <div class="podium-name">{{ sorted[2]?.name }}</div>
+          <div class="podium-pts">{{ sorted[2]?.points }} pts</div>
+        </div>
+        <div class="podium-block block-anim" style="animation-delay: 0.5s">
+          <span class="podium-rank">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="list">
+    <div class="pills">
+      @for (player of sorted.slice(3); track player.name; let i = $index) {
+        <div class="pill pill-anim" [style.animation-delay]="i * 0.08 + 's'">
+          <span class="rank">{{ i + 4 }}.</span>
+          <span class="pname">{{ player.name }}</span>
+          <span class="ppts">{{ player.points }} pts</span>
+        </div>
+      }
+    </div>
+  </div>
+</main>

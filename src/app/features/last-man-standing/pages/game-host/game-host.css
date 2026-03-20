@@ -1,0 +1,93 @@
+.option-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vw;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+}
+
+.option {
+  aspect-ratio: 1/1;
+  width: 8.5%;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  border-radius: 15px;
+  background-color: var(--option-bg);
+  border: var(--text) 1px solid;
+  font-weight: 600;
+  font-size: 200%;
+
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.option-front,
+.option-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option-back {
+  opacity: 0;
+  transform: scale(0.8);
+  word-break: break-word;
+  text-align: center;
+}
+
+/* Aufgedeckt: front raus, back rein */
+.option.revealed .option-front,
+.option.wrong .option-front {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.option.revealed .option-back,
+.option.wrong .option-back {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Pop nach dem Aufdecken */
+@keyframes card-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.option.just-revealed {
+  background-color: var(--active-bg);
+  border-color: var(--active);
+  animation: card-pop 0.35s ease both;
+}
+
+.option.revealed {
+  background-color: var(--correct-bg);
+  border-color: var(--correct);
+}
+
+.option.wrong {
+  background-color: var(--wrong-bg);
+  border-color: var(--wrong);
+}
+
+.option:not(.revealed):not(.wrong):hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: var(--active);
+}
