@@ -72,8 +72,8 @@
 }
 
 .option.just-revealed {
-  background-color: var(--active-bg);
-  border-color: var(--active);
+  background-color: var(--active-bg) !important;
+  border-color: var(--active) !important;
   animation: card-pop 0.35s ease both;
 }
 
