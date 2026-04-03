@@ -13,7 +13,7 @@ export class FileImport {
 
     return columns.map((column) => ({
       filename: file.name,
-      name: column,
+      category: column,
       answers: rows.map((row: any) => row[column]).filter(Boolean),
     }));
   }

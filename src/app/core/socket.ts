@@ -1,19 +1,59 @@
 import { Injectable, signal } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import type { Room, ClientEvents, ServerEvents } from '../../../shared-types';
+import type { Room, ClientEvents, ServerEvents, LmsData } from '../../../shared-types';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
-  private socket: Socket<ServerEvents, ClientEvents> =
-    io('http://localhost:3000');
+  private socket: Socket<ServerEvents, ClientEvents> = io('http://localhost:3000');
 
   room = signal<Room | null>(null);
+  token = signal<string | null>(null);
   error = signal<string | null>(null);
 
   constructor() {
-    this.socket.on('room:created', r => this.room.set(r));
-    this.socket.on('room:updated', r => this.room.set(r));
-    this.socket.on('game:stateChanged', r => this.room.set(r));
-    this.socket.on('error', msg => this.error.set(msg));
+    const token = localStorage.getItem('gamenight-token');
+    if (token) this.socket.emit('room:reconnect', token);
+
+    this.socket.on('room:created', (r) => this.room.set(r));
+    this.socket.on('room:updated', (r) => this.room.set(r));
+    this.socket.on('game:stateChanged', (r) => this.room.set(r));
+    this.socket.on('room:joined', ({ room, token }) => {
+      this.room.set(room);
+      this.token.set(token);
+      localStorage.setItem('gamenight-token', token);
+    });
+    this.socket.on('error', (msg) => this.error.set(msg));
+  }
+
+  createRoom(gameType: Room['gameType']) {
+    this.socket.emit('room:create', gameType);
+  }
+
+  joinRoom(code: string, name: string) {
+    this.socket.emit('room:join', { code, name });
+  }
+
+  startGame(categories: LmsData[]) {
+    this.socket.emit('game:start', { categories });
+  }
+
+  nextRound() {
+    this.socket.emit('game:nextRound');
+  }
+
+  revealAnswer(index: number) {
+    this.socket.emit('game:revealAnswer', index);
+  }
+
+  reduceHealth(playerId: string) {
+    this.socket.emit('game:reduceHealth', playerId);
+  }
+
+  selectGame(gameType: Room['gameType']) {
+    this.socket.emit('game:select', gameType);
+  }
+
+  endGame() {
+    this.socket.emit('game:end');
   }
 }

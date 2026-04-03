@@ -1,9 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { FileUpload } from '../../../../shared/components/file-upload/file-upload';
-import { LmsData } from '../../../../shared/models/lms-data';
 import { PlayerList } from '../../../../shared/components/player-list/player-list';
 import { Router } from '@angular/router';
 import { PlayerService } from '../../../../core/player';
+import { LmsData } from '../../../../../../shared-types';
+import { SocketService } from '../../../../core/socket';
+import { RouterTestingHarness } from '@angular/router/testing';
 
 @Component({
   selector: 'app-game-host',
@@ -15,51 +17,52 @@ import { PlayerService } from '../../../../core/player';
 export class GameHost {
   private router = inject(Router);
   private playerService = inject(PlayerService);
+  private socket = inject(SocketService);
 
-  categories: LmsData[] = [];
-  category = signal('Lobby');
-  round = signal(0);
-  answers = signal<string[]>([]);
-  revealed = signal<boolean[]>([]);
-  justRevealed = signal<number | null>(null);
-  wrong = signal<boolean[]>([]);
+  code = window.location.pathname.split('/').pop();
   playerList = this.playerService.players;
+  room = this.socket.room;
+  justRevealed = signal<number | null>(null);
+  wrongAnswers = signal<boolean[]>([]);
+
+  get gameState() {
+    return this.room()?.gameState ?? null;
+  }
+  get players() {
+    return this.room()?.players;
+  }
+  get round() {
+    return this.room()?.round;
+  }
 
   nextRound() {
-    this.category.set(this.categories[this.round()].name);
-    this.answers.set(this.categories[this.round()].answers);
-    this.revealed.set(this.categories[this.round()].answers.map(() => false));
-    this.wrong.set(this.categories[this.round()].answers.map(() => false));
+    this.wrongAnswers.set(this.wrongAnswers().map((w) => false));
     this.justRevealed.set(null);
-    this.round.set(this.round() + 1);
+    this.socket.nextRound();
   }
 
   reveal(index: number) {
-    const updated = [...this.revealed()];
-    updated[index] = true;
-    this.revealed.set(updated);
+    this.socket.revealAnswer(index);
     this.justRevealed.set(index);
   }
 
   revealAll() {
-    this.wrong.set(this.revealed().map((r) => !r));
+    const revealed = this.gameState?.revealedAnswers ?? [];
+    this.wrongAnswers.set(revealed.map((r) => !r));
+    revealed.forEach((r, i) => {
+      if (!r) this.socket.revealAnswer(i);
+    });
   }
 
-  cancel() {
-    this.categories = [];
-    this.round.set(0);
-    this.category.set('Lade eine Datei hoch');
+  endGame() {
+    this.socket.endGame();
   }
 
   showResults() {
     this.router.navigateByUrl('/results');
   }
 
-  start() {
-    this.category.set(this.categories[this.round()].name);
-    this.answers.set(this.categories[this.round()].answers);
-    this.revealed.set(this.categories[this.round()].answers.map(() => false));
-    this.wrong.set(this.categories[this.round()].answers.map(() => false));
-    this.round.set(1);
+  start(categories: LmsData[]) {
+    this.socket.startGame(categories);
   }
 }

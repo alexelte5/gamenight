@@ -33,6 +33,7 @@ export function registerRoomHandlers(
     rooms.set(code, room);
     socket.join(code);
     socket.emit('room:created', room);
+    console.log('room created: ', room);
   });
 
   socket.on('room:join', ({ code, name }) => {

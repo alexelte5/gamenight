@@ -14,6 +14,7 @@ export class PlayerList {
 
   @ViewChild('dialogAdd') dialogAdd!: ElementRef<HTMLDialogElement>;
   round = input<number>(0);
+  players = input<Player[]>([]);
 
   constructor() {
     effect(() => {

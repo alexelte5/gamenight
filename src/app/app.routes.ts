@@ -4,6 +4,11 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./features/lobby/landing-page/landing-page').then((m) => m.LandingPage),
+  },
+  {
+    path: 'lms/**',
+    loadComponent: () =>
       import('./features/last-man-standing/pages/game-host/game-host').then((m) => m.GameHost),
   },
   {
