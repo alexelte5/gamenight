@@ -9,6 +9,7 @@
 
   --active: #2a8bab;
   --active-bg: #0d2533;
+  --active-font: #22d3ee;
   --correct: #1d9e75;
   --correct-bg: #0f2e22;
   --wrong: #e24b4a;
@@ -119,4 +120,31 @@ dialog {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
   }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: #2a2d38;
+}
+
+.divider-text {
+  font-size: 1rem;
+  color: #4a5568;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: var(--active);
+  text-align: start;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }

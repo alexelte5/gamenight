@@ -2,6 +2,7 @@ import { Component, effect, ElementRef, inject, input, ViewChild } from '@angula
 import { Player } from '../../models/player';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlayerService } from '../../../core/player';
+import { SocketService } from '../../../core/socket';
 
 @Component({
   selector: 'app-player-list',
@@ -10,37 +11,18 @@ import { PlayerService } from '../../../core/player';
   styleUrl: './player-list.css',
 })
 export class PlayerList {
+  private socket = inject(SocketService);
   private playerService = inject(PlayerService);
 
   @ViewChild('dialogAdd') dialogAdd!: ElementRef<HTMLDialogElement>;
   round = input<number>(0);
   players = input<Player[]>([]);
 
-  constructor() {
-    effect(() => {
-      if (this.round() == 1) {
-        this.resetPlayer();
-      } else if (this.round() > 1) {
-        this.newRound();
-      }
-    });
-  }
-
   name = new FormControl('', [Validators.required]);
-
-  maxHealth: number = 1;
-  playerList = this.playerService.players;
+  maxHealth = 3;
 
   reduceHealth(player: Player) {
-    this.playerService.reduceHealth(player);
-  }
-
-  resetPlayer() {
-    this.playerService.resetAll(this.maxHealth);
-  }
-
-  newRound() {
-    this.playerService.newRound(this.maxHealth);
+    this.socket.reduceHealth(player.id);
   }
 
   deletePlayer(player: Player) {

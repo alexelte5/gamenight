@@ -22,6 +22,8 @@ export interface LmsGameState {
   categories: LmsData[];
   currentCategory: number;
   revealedAnswers: boolean[];
+  justRevealed: number | null;
+  wrongAnswers: boolean[];
 }
 
 export interface LmsData {
@@ -38,6 +40,7 @@ export interface ClientEvents {
   'game:start': (payload: { categories: LmsData[] }) => void;
   'game:nextRound': () => void;
   'game:revealAnswer': (index: number) => void;
+  'game:revealAll': (wrongs: boolean[]) => void;
   'game:reduceHealth': (playerId: string) => void;
   'game:select': (gameType: Room['gameType']) => void;
   'game:end': () => void;

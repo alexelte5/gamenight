@@ -1,0 +1,27 @@
+<div class="option-wrapper">
+  @if (gameState) {
+    @for (answer of gameState.categories[gameState.currentCategory].answers; track $index) {
+      @if (isHost()) {
+        <button
+          class="option"
+          [class.revealed]="gameState.revealedAnswers[$index]"
+          [class.just-revealed]="justRevealed === $index"
+          [class.wrong]="wrongAnswers != null ? wrongAnswers[$index] : []"
+          (click)="reveal($index)"
+        >
+          <span class="option-answer">{{ answer }}</span>
+        </button>
+      } @else {
+        <button
+          class="option"
+          [class.revealed]="gameState.revealedAnswers[$index]"
+          [class.just-revealed]="justRevealed === $index"
+          [class.wrong]="wrongAnswers != null ? wrongAnswers[$index] : []"
+        >
+          <span class="option-front">???</span>
+          <span class="option-back">{{ answer }}</span>
+        </button>
+      }
+    }
+  }
+</div>

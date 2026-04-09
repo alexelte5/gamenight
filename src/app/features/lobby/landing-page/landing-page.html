@@ -1,4 +1,29 @@
 <div class="main">
-  LandingPage stuff
-  <button (click)="createRoom('lms')">Last Man Standing</button>
+  <div class="wrapper">
+    <div class="host">
+      <h1 class="title">Raum hosten</h1>
+      <button class="game-btn" (click)="createRoom('lms')">
+        Last Man Standing <span class="tag">Elimination</span>
+      </button>
+    </div>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">oder beitreten</span>
+      <div class="divider-line"></div>
+    </div>
+    <div class="player">
+      <h1 class="title">Raum beitreten</h1>
+      <div class="form">
+        <input type="text" placeholder="username" class="input" [formField]="userForm.name" />
+        <input type="text" placeholder="room code" class="input" [formField]="userForm.code" />
+        <button
+          class="submit"
+          [disabled]="userForm().invalid()"
+          (click)="joinRoom(userForm.code().value(), userForm.name().value())"
+        >
+          Beitreten
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

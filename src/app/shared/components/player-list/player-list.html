@@ -1,5 +1,5 @@
 <div class="player-bar disable-text-selection">
-  @for (player of playerList(); track player) {
+  @for (player of players(); track player) {
     <div
       class="player-card"
       [class.eliminated]="player.health === 0"

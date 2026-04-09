@@ -53,6 +53,7 @@ export function registerRoomHandlers(
     socket.join(code);
     socket.emit('room:joined', { room, token });
     socket.to(code).emit('room:updated', room);
+    console.log('room updated: ', room);
   });
 
   socket.on('room:reconnect', (token) => {
@@ -83,6 +84,8 @@ export function registerRoomHandlers(
       categories: payload.categories,
       currentCategory: 0,
       revealedAnswers: payload.categories[0].answers.map(() => false),
+      justRevealed: null,
+      wrongAnswers: [],
     };
     io.to(room.code).emit('game:stateChanged', room);
   });
@@ -96,6 +99,8 @@ export function registerRoomHandlers(
       ...room.gameState,
       currentCategory: next,
       revealedAnswers: room.gameState.categories[next].answers.map(() => false),
+      justRevealed: null,
+      wrongAnswers: [],
     };
     room.round += 1;
     io.to(room.code).emit('game:stateChanged', room);
@@ -105,6 +110,14 @@ export function registerRoomHandlers(
     const room = getRoomByHost(socket.id);
     if (!room || !room.gameState) return;
     room.gameState.revealedAnswers[index] = true;
+    room.gameState.justRevealed = index;
+    io.to(room.code).emit('game:stateChanged', room);
+  });
+
+  socket.on('game:revealAll', (wrongs) => {
+    const room = getRoomByHost(socket.id);
+    if (!room || !room.gameState) return;
+    room.gameState.wrongAnswers = wrongs;
     io.to(room.code).emit('game:stateChanged', room);
   });
 

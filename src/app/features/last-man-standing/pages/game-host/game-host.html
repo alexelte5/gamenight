@@ -10,35 +10,32 @@
     </h1>
     <h1>Runde {{ round }}</h1>
   </div>
+
   <div class="wrapper">
     <div class="option-wrapper">
       @if (!gameState) {
-        <app-file-upload (categoriesLoaded)="start($event)"></app-file-upload>
+        <app-file-upload (categoriesLoaded)="categories = $event" />
       } @else {
-        @for (answer of gameState.categories[gameState.currentCategory].answers; track $index) {
-          <button
-            class="option"
-            [class.revealed]="gameState.revealedAnswers[$index]"
-            [class.just-revealed]="justRevealed() === $index"
-            [class.wrong]="wrongAnswers()[$index]"
-            (click)="reveal($index)"
-          >
-            <span class="option-front">???</span>
-            <span class="option-back">{{ answer }}</span>
-          </button>
-        }
+        <app-cards [isHost]="true" />
       }
     </div>
     <div style="margin-top: auto; margin-bottom: 3em">
-      <app-player-list [players]="players ?? []" [round]="round ?? 0"></app-player-list>
+      <app-player-list [players]="players ?? []" [round]="round ?? 0" />
     </div>
   </div>
 
   <div class="footer">
     @if (!gameState) {
-      <button class="btn" [disabled]="!room()?.players?.length">Warten auf Datei-Upload</button>
+      <button
+        class="btn"
+        (click)="start(categories)"
+        [disabled]="!room()?.players?.length || categories.length === 0"
+      >
+        Spiel starten
+      </button>
     } @else if (
-      gameState.revealedAnswers.filter(r => r).length + wrongAnswers().filter(w => w).length < gameState.categories[gameState.currentCategory].answers.length
+      wrongAnswers && 
+      gameState.revealedAnswers.filter(r => r).length + wrongAnswers.filter(w => w).length < gameState.categories[gameState.currentCategory].answers.length
     ) {
       <button class="btn" (click)="revealAll()">Alle aufdecken</button>
     } @else if ((round ?? 0) >= room()!.gameState!.categories.length) {

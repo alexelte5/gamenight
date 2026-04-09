@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { PlayerService } from '../../../../core/player';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { SocketService } from '../../../../core/socket';
 
 @Component({
   selector: 'app-result',
@@ -9,12 +9,13 @@ import { Router } from '@angular/router';
   styleUrl: './result.css',
 })
 export class Result {
-  private playerService = inject(PlayerService);
-  public router = inject(Router);
+  private socket = inject(SocketService);
+  router = inject(Router);
 
-  playerList = this.playerService.players();
+  playerList = this.socket.room()?.players;
 
   get sorted() {
-    return [...this.playerList].sort((a, b) => b.points - a.points);
+    if (this.playerList) return [...this.playerList].sort((a, b) => b.points - a.points);
+    return [];
   }
 }

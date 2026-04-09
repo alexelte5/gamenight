@@ -8,8 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'lms/**',
-    loadComponent: () =>
-      import('./features/last-man-standing/pages/game-host/game-host').then((m) => m.GameHost),
+    loadComponent: () => import('./features/last-man-standing/layout/layout').then((m) => m.Layout),
   },
   {
     path: 'results',
