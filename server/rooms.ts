@@ -21,6 +21,7 @@ export function registerRoomHandlers(
 ) {
   socket.on('room:create', (gameType) => {
     const code = generateCode();
+    const settings = { maxHealth: 3, timer: null };
     const room: Room = {
       code,
       gameType,
@@ -29,6 +30,7 @@ export function registerRoomHandlers(
       round: 0,
       hostId: socket.id,
       players: [],
+      settings: settings,
     };
     rooms.set(code, room);
     socket.join(code);
@@ -44,7 +46,7 @@ export function registerRoomHandlers(
       id: socket.id,
       name,
       token: token,
-      health: 3,
+      health: room.settings.maxHealth,
       points: 0,
       isHost: false,
       connected: true,
@@ -102,6 +104,14 @@ export function registerRoomHandlers(
       justRevealed: null,
       wrongAnswers: [],
     };
+    room.players = room.players.map((p) => {
+      const newHealth = room.settings.maxHealth;
+      const newPoints =
+        p.health > 0
+          ? (p.points += room.players.filter((p) => p.health === 0).length + 1)
+          : p.points;
+      return { ...p, health: newHealth, points: newPoints };
+    });
     room.round += 1;
     io.to(room.code).emit('game:stateChanged', room);
   });
@@ -124,9 +134,17 @@ export function registerRoomHandlers(
   socket.on('game:reduceHealth', (playerId) => {
     const room = getRoomByHost(socket.id);
     if (!room) return;
-    room.players = room.players.map((p) =>
-      p.id === playerId ? { ...p, health: Math.max(0, p.health - 1) } : p,
-    );
+    room.players = room.players.map((p) => {
+      if (p.id === playerId) {
+        const newHealth = Math.max(0, p.health - 1);
+        const newPoints =
+          newHealth === 0
+            ? (p.points += room.players.filter((p) => p.health > 0).length)
+            : p.points;
+        return { ...p, health: newHealth, points: newPoints };
+      }
+      return p;
+    });
     io.to(room.code).emit('game:stateChanged', room);
   });
 

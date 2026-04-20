@@ -16,6 +16,7 @@ export interface Room {
   round: number;
   players: Player[];
   hostId: string;
+  settings: Settings;
 }
 
 export interface LmsGameState {
@@ -30,6 +31,11 @@ export interface LmsData {
   filename: string;
   category: string;
   answers: string[];
+}
+
+export interface Settings {
+  maxHealth: number;
+  timer: number | null;
 }
 
 // Events Client → Server
