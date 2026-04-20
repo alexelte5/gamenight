@@ -60,11 +60,11 @@
   <div class="inputs">
     <div class="input">
       <label for="name">Name</label>
-      <input type="text" id="name" [formControl]="name" (keydown.enter)="save()" />
+      <input type="text" id="name" [formControl]="name" (keydown.enter)="addPlayer()" />
     </div>
   </div>
   <div class="footer">
-    <button class="dialog-btn" (click)="save()">Speichern</button>
+    <button class="dialog-btn" (click)="addPlayer()">Speichern</button>
     <button class="dialog-btn" (click)="closeAdd()">Abbrechen</button>
   </div>
 </dialog>

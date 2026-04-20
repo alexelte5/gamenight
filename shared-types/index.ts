@@ -42,6 +42,8 @@ export interface Settings {
 export interface ClientEvents {
   'room:create': (gameType: Room['gameType']) => void;
   'room:join': (payload: { code: string; name: string }) => void;
+  'room:addPlayer': (name: string) => void;
+  'room:removePlayer': (playerId: string) => void;
   'room:reconnect': (token: string) => void;
   'game:start': (payload: { categories: LmsData[] }) => void;
   'game:nextRound': () => void;
@@ -49,6 +51,7 @@ export interface ClientEvents {
   'game:revealAll': (wrongs: boolean[]) => void;
   'game:reduceHealth': (playerId: string) => void;
   'game:select': (gameType: Room['gameType']) => void;
+  'game:results': () => void;
   'game:end': () => void;
 }
 

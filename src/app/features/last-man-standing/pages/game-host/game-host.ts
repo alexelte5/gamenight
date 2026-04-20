@@ -53,6 +53,7 @@ export class GameHost {
   }
 
   showResults() {
+    this.socket.results();
     this.router.navigateByUrl('/results');
   }
 

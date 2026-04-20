@@ -18,4 +18,9 @@ export class Result {
     if (this.playerList) return [...this.playerList].sort((a, b) => b.points - a.points);
     return [];
   }
+
+  endGame() {
+    this.socket.endGame();
+    this.router.navigateByUrl('/');
+  }
 }

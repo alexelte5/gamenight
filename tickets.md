@@ -12,19 +12,17 @@
   - reveal cards
   - reveal all
   - next round
+    - adds points to survivors
+    - revives player
+  - adds points when disqualified
+  - hp removal
   - end game
   - results
 
+  - add players manually
+  - remove players
+
 ## Not prioritized // necessarry
-
-- gameflow fix (implement proper gameflow to server)
-  - adds points
-    - on next round
-    - on disqualified
-  - removes hp
-  - next round revives player
-
-- add players manually -> no socket join
 
 - players can leave lobby
 

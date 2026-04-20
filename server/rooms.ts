@@ -7,6 +7,7 @@ import type {
   ClientEvents,
   ServerEvents,
 } from '../shared-types';
+import { SocketAddress } from 'net';
 
 const rooms = new Map<string, Room>();
 const disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -56,6 +57,31 @@ export function registerRoomHandlers(
     socket.emit('room:joined', { room, token });
     socket.to(code).emit('room:updated', room);
     console.log('room updated: ', room);
+  });
+
+  socket.on('room:addPlayer', (name) => {
+    const room = getRoomByHost(socket.id);
+    const token = crypto.randomUUID();
+    if (!room) return;
+    const player: Player = {
+      id: 'manual-' + token,
+      name,
+      token: 'manual-' + token,
+      health: room.settings.maxHealth,
+      points: 0,
+      isHost: false,
+      connected: true,
+    };
+    room.players.push(player);
+    socket.emit('room:joined', { room, token });
+    socket.to(room.code).emit('room:updated', room);
+  });
+
+  socket.on('room:removePlayer', (playerId) => {
+    const room = getRoomByHost(socket.id);
+    if (!room) return;
+    room.players = room.players.filter((p) => p.id !== playerId);
+    io.to(room.code).emit('room:updated', room);
   });
 
   socket.on('room:reconnect', (token) => {
@@ -139,7 +165,7 @@ export function registerRoomHandlers(
         const newHealth = Math.max(0, p.health - 1);
         const newPoints =
           newHealth === 0
-            ? (p.points += room.players.filter((p) => p.health > 0).length)
+            ? (p.points += room.players.filter((p) => p.health <= 0).length + 1)
             : p.points;
         return { ...p, health: newHealth, points: newPoints };
       }
@@ -157,11 +183,30 @@ export function registerRoomHandlers(
     io.to(room.code).emit('game:stateChanged', room);
   });
 
-  socket.on('game:end', () => {
+  socket.on('game:results', () => {
     const room = getRoomByHost(socket.id);
     if (!room) return;
     room.state = 'results';
     room.gameState = null;
+    room.players = room.players.map((p) => {
+      const newPoints =
+        p.health > 0
+          ? (p.points += room.players.filter((p) => p.health === 0).length + 1)
+          : p.points;
+      return { ...p, points: newPoints };
+    });
+    io.to(room.code).emit('game:stateChanged', room);
+  });
+
+  socket.on('game:end', () => {
+    const room = getRoomByHost(socket.id);
+    if (!room) return;
+    room.state = 'lobby';
+    room.gameState = null;
+    room.round = 0;
+    room.players = room.players.map((p) => {
+      return { ...p, health: room.settings.maxHealth, points: 0 };
+    });
     io.to(room.code).emit('game:stateChanged', room);
   });
 

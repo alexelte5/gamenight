@@ -41,6 +41,14 @@ export class SocketService {
     this.socket.emit('room:join', { code, name });
   }
 
+  addPlayer(name: string) {
+    this.socket.emit('room:addPlayer', name);
+  }
+
+  removePlayer(playerId: string) {
+    this.socket.emit('room:removePlayer', playerId);
+  }
+
   startGame(categories: LmsData[]) {
     this.socket.emit('game:start', { categories });
   }
@@ -63,6 +71,10 @@ export class SocketService {
 
   selectGame(gameType: Room['gameType']) {
     this.socket.emit('game:select', gameType);
+  }
+
+  results() {
+    this.socket.emit('game:results');
   }
 
   endGame() {

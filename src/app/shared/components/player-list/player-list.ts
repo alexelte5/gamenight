@@ -12,7 +12,6 @@ import { SocketService } from '../../../core/socket';
 })
 export class PlayerList {
   private socket = inject(SocketService);
-  private playerService = inject(PlayerService);
 
   @ViewChild('dialogAdd') dialogAdd!: ElementRef<HTMLDialogElement>;
   isHost = input<boolean>(false);
@@ -34,15 +33,15 @@ export class PlayerList {
   }
 
   deletePlayer(player: Player) {
-    this.playerService.removePlayer(player);
+    if (this.isHost()) this.socket.removePlayer(player.id);
   }
 
-  save() {
+  addPlayer() {
     if (this.name.value !== null) {
       if (this.name.value.trim() !== '') {
-        this.playerService.addPlayer(this.name.value, this.maxHealth);
-        this.closeAdd();
+        this.socket.addPlayer(this.name.value);
         this.name.setValue('');
+        this.closeAdd();
       }
     }
   }
