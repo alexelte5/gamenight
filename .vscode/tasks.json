@@ -37,6 +37,41 @@
           }
         }
       }
+    },
+    {
+      "label": "Frontend",
+      "type": "shell",
+      "command": "ng s -o",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "group": "dev-group",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Server",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/server"
+      },
+      "presentation": {
+        "group": "dev-group",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Fullstack Start",
+      "dependsOn": ["Frontend", "Server"],
+      "group": { "kind": "build", "isDefault": true },
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false
+      }
     }
   ]
 }

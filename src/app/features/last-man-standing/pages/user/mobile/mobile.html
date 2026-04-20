@@ -1,1 +1,22 @@
-<p>mobile works!</p>
+<div class="main">
+  <div class="header">
+    <h1>Last Man Standing</h1>
+    <h1>
+      {{
+        gameState && gameState.currentCategory !== undefined
+          ? gameState.categories[gameState.currentCategory].category
+          : 'Warten - Code: ' + code
+      }}
+    </h1>
+    <h1>Runde {{ round }}</h1>
+  </div>
+
+  <div class="wrapper">
+    @if (gameState) {
+      <div class="revealed">
+        {{gameState.revealedAnswers.filter(a => a).length}}/{{ gameState.revealedAnswers.length }}
+      </div>
+    }
+    <app-player-list [isMobile]="true" />
+  </div>
+</div>

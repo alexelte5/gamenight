@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
 import { Player } from '../../models/player';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlayerService } from '../../../core/player';
@@ -15,14 +15,22 @@ export class PlayerList {
   private playerService = inject(PlayerService);
 
   @ViewChild('dialogAdd') dialogAdd!: ElementRef<HTMLDialogElement>;
-  round = input<number>(0);
-  players = input<Player[]>([]);
+  isHost = input<boolean>(false);
+  isMobile = input<boolean>(false);
 
   name = new FormControl('', [Validators.required]);
   maxHealth = 3;
 
+  get round() {
+    return this.socket.room()?.round ?? 0;
+  }
+
+  get players() {
+    return this.socket.room()?.players ?? [];
+  }
+
   reduceHealth(player: Player) {
-    this.socket.reduceHealth(player.id);
+    if (this.isHost()) this.socket.reduceHealth(player.id);
   }
 
   deletePlayer(player: Player) {

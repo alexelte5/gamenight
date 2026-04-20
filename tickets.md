@@ -6,6 +6,7 @@
 
 - player UI
   - desktop
+  - mobile
 
 - gameflow fix
   - reveal cards
@@ -15,9 +16,6 @@
   - results
 
 ## Not prioritized // necessarry
-
-- player UI
-  - mobile
 
 - gameflow fix (implement proper gameflow to server)
   - adds points
@@ -32,9 +30,20 @@
 
 - lobby settings
   - max health
+  - timer per answer
 
-## High
+- admin reconnect
 
-## Mid
+- timer
 
-## Low
+## Quality of life
+
+- header component
+
+## game ideas
+
+- last man standing
+- imposter
+- wer wird millionär
+- wer bin ich
+- stadt land fluss
