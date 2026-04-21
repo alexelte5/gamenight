@@ -1,7 +1,6 @@
 import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
 import { Player } from '../../models/player';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PlayerService } from '../../../core/player';
 import { SocketService } from '../../../core/socket';
 
 @Component({
@@ -18,7 +17,6 @@ export class PlayerList {
   isMobile = input<boolean>(false);
 
   name = new FormControl('', [Validators.required]);
-  maxHealth = 3;
 
   get round() {
     return this.socket.room()?.round ?? 0;
@@ -26,6 +24,10 @@ export class PlayerList {
 
   get players() {
     return this.socket.room()?.players ?? [];
+  }
+
+  get maxHealth() {
+    return this.socket.room()!.settings.maxHealth;
   }
 
   reduceHealth(player: Player) {

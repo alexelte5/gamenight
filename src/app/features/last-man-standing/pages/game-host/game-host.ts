@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FileUpload } from '../../../../shared/components/file-upload/file-upload';
 import { PlayerList } from '../../../../shared/components/player-list/player-list';
 import { Router } from '@angular/router';

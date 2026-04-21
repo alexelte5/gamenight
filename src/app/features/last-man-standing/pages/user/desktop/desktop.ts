@@ -24,4 +24,10 @@ export class Desktop {
   get round() {
     return this.room()?.round ?? 0;
   }
+
+  leave() {
+    this.socket.leaveRoom();
+    localStorage.removeItem('gamenight-token');
+    window.location.href = '/';
+  }
 }

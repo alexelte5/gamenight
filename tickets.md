@@ -22,7 +22,7 @@
   - add players manually
   - remove players
 
-## Not prioritized // necessarry
+## Not prioritized // necessarry (v1.0)
 
 - players can leave lobby
 
@@ -33,6 +33,8 @@
 - admin reconnect
 
 - timer
+
+- doku, tutorial and release of website
 
 ## Quality of life
 

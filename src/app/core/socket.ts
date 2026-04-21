@@ -41,6 +41,10 @@ export class SocketService {
     this.socket.emit('room:join', { code, name });
   }
 
+  leaveRoom() {
+    this.socket.emit('room:leave');
+  }
+
   addPlayer(name: string) {
     this.socket.emit('room:addPlayer', name);
   }

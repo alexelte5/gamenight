@@ -23,4 +23,10 @@ export class Mobile {
   get players() {
     return this.room()?.players;
   }
+
+  leave() {
+    this.socket.leaveRoom();
+    localStorage.removeItem('gamenight-token');
+    window.location.href = '/';
+  }
 }

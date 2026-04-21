@@ -1,13 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import type {
-  Room,
-  Player,
-  LmsGameState,
-  LmsData,
-  ClientEvents,
-  ServerEvents,
-} from '../shared-types';
-import { SocketAddress } from 'net';
+import type { Room, Player, ClientEvents, ServerEvents } from '../shared-types';
 
 const rooms = new Map<string, Room>();
 const disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -57,6 +49,14 @@ export function registerRoomHandlers(
     socket.emit('room:joined', { room, token });
     socket.to(code).emit('room:updated', room);
     console.log('room updated: ', room);
+  });
+
+  socket.on('room:leave', () => {
+    const room = [...rooms.values()].find((r) => r.players.some((p) => p.id === socket.id));
+    if (room) {
+      room.players = room.players.filter((p) => p.id !== socket.id);
+      io.to(room.code).emit('room:updated', room);
+    }
   });
 
   socket.on('room:addPlayer', (name) => {
