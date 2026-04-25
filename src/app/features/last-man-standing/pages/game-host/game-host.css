@@ -11,3 +11,7 @@
     flex: 1;
   }
 }
+
+app-settings {
+  height: 100%;
+}

@@ -1,0 +1,33 @@
+<div style="height: 100%; align-content: center">
+  <button class="settings" (click)="openSettings()">Einstellungen</button>
+</div>
+
+<dialog #dialogSettings class="dialogSettings">
+  <h1>Einstellugen</h1>
+  <div class="inputs">
+    <div class="select">
+      <label for="name">Max Health</label>
+      <div style="display: flex; justify-content: space-evenly">
+        <button class="option" (click)="setMaxHealth(1)" [class.active]="maxHealthInput() === 1">
+          1
+        </button>
+        <button class="option" (click)="setMaxHealth(2)" [class.active]="maxHealthInput() === 2">
+          2
+        </button>
+        <button class="option" (click)="setMaxHealth(3)" [class.active]="maxHealthInput() === 3">
+          3
+        </button>
+        <button class="option" (click)="setMaxHealth(4)" [class.active]="maxHealthInput() === 4">
+          4
+        </button>
+        <button class="option" (click)="setMaxHealth(5)" [class.active]="maxHealthInput() === 5">
+          5
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <button class="dialog-btn" (click)="saveSettings()">Speichern</button>
+    <button class="dialog-btn" (click)="closeSettings()">Abbrechen</button>
+  </div>
+</dialog>

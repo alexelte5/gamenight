@@ -51,6 +51,19 @@ export function registerRoomHandlers(
     console.log('room updated: ', room);
   });
 
+  socket.on('room:updateSettings', ({ maxHealth, timer }) => {
+    const room = getRoomByHost(socket.id);
+    if (!room) return;
+    room.settings = {
+      maxHealth,
+      timer,
+    };
+    room.players = room.players.map((p) => {
+      return { ...p, health: maxHealth };
+    });
+    io.to(room.code).emit('room:updated', room);
+  });
+
   socket.on('room:leave', () => {
     const room = [...rooms.values()].find((r) => r.players.some((p) => p.id === socket.id));
     if (room) {

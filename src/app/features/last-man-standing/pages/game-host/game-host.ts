@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { LmsData } from '../../../../../../shared-types';
 import { SocketService } from '../../../../core/socket';
 import { Cards } from '../../components/cards/cards';
+import { Settings } from "../../../../shared/components/settings/settings";
 
 @Component({
   selector: 'app-game-host',
   standalone: true,
-  imports: [FileUpload, PlayerList, Cards],
+  imports: [FileUpload, PlayerList, Cards, Settings],
   templateUrl: './game-host.html',
   styleUrl: './game-host.css',
 })

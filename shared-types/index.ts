@@ -42,6 +42,7 @@ export interface Settings {
 export interface ClientEvents {
   'room:create': (gameType: Room['gameType']) => void;
   'room:join': (payload: { code: string; name: string }) => void;
+  'room:updateSettings': (payload: { maxHealth: number; timer: number | null }) => void;
   'room:addPlayer': (name: string) => void;
   'room:leave': () => void;
   'room:removePlayer': (playerId: string) => void;

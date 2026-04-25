@@ -37,6 +37,10 @@ export class SocketService {
     this.socket.emit('room:create', gameType);
   }
 
+  updateSettings(maxHealth: number, timer: number | null) {
+    this.socket.emit('room:updateSettings', { maxHealth, timer });
+  }
+
   joinRoom(code: string, name: string) {
     this.socket.emit('room:join', { code, name });
   }

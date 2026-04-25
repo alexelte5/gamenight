@@ -8,7 +8,13 @@
           : 'Warten - Code: ' + code
       }}
     </h1>
-    <h1>Runde {{ round }}</h1>
+    @if (gameState) {
+      <h1>Runde {{ round }}</h1>
+    } @else {
+      <div>
+        <app-settings />
+      </div>
+    }
   </div>
 
   <div class="wrapper">

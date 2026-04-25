@@ -22,19 +22,22 @@
   - add players manually
   - remove players
 
-## Not prioritized // necessarry (v1.0)
-
 - players can leave lobby
 
 - lobby settings
   - max health
-  - timer per answer
+
+## Not prioritized // necessarry (v1.0)
 
 - admin reconnect
 
 - timer
 
+- lobby settings
+  - timer per answer
+
 - doku, tutorial and release of website
+  - version in local storage (popup of explanation if none)
 
 ## Quality of life
 
