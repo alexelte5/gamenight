@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { LmsData } from '../../../../../../shared-types';
 import { SocketService } from '../../../../core/socket';
 import { Cards } from '../../components/cards/cards';
-import { Settings } from "../../../../shared/components/settings/settings";
+import { Settings } from '../../../../shared/components/settings/settings';
 
 @Component({
   selector: 'app-game-host',
@@ -60,5 +60,11 @@ export class GameHost {
 
   start(categories: LmsData[]) {
     this.socket.startGame(categories);
+  }
+
+  leave() {
+    this.socket.leaveRoom();
+    localStorage.removeItem('gamenight-hostToken');
+    window.location.href = '/';
   }
 }

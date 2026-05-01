@@ -16,6 +16,7 @@
     - revives player
   - adds points when disqualified
   - hp removal
+  - revive player
   - end game
   - results
 
@@ -29,7 +30,10 @@
 
 ## Not prioritized // necessarry (v1.0)
 
-- admin reconnect
+- host
+  - reconnect
+  - leave
+    - kick all players with message (host left / room closed)
 
 - timer
 

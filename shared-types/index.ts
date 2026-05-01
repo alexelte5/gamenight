@@ -16,6 +16,7 @@ export interface Room {
   round: number;
   players: Player[];
   hostId: string;
+  hostToken: string;
   settings: Settings;
 }
 

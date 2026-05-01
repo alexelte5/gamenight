@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { GameHost } from '../pages/game-host/game-host';
 import { User } from '../pages/user/user';
 import { SocketService } from '../../../core/socket';
@@ -11,5 +11,5 @@ import { SocketService } from '../../../core/socket';
 })
 export class Layout {
   private socket = inject(SocketService);
-  isHost = this.socket.isHost();
+  isHost = computed(() => this.socket.isHost());
 }
