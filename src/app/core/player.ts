@@ -12,6 +12,7 @@ export class PlayerService {
   addPlayer(name: string, maxHealth: number) {
     if (name) {
       const newPlayer: Player = {
+        id: 'test',
         name: name,
         health: maxHealth,
         points: 0,

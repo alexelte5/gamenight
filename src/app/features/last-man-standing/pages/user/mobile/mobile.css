@@ -1,0 +1,20 @@
+.wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.revealed {
+  font-size: 3rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+app-player-list {
+  width: 100%;
+  max-width: 100%;
+}
+
+app-player-list .player-bar {
+  width: 100%;
+  max-width: 100%;
+}

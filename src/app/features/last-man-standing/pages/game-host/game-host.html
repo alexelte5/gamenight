@@ -1,51 +1,58 @@
 <div class="main">
   <div class="header">
     <h1>Last Man Standing</h1>
-    <h1>{{ category() }}</h1>
-    <h1>Runde {{ round() }}</h1>
+    <h1>
+      {{
+        gameState && gameState.currentCategory !== undefined
+          ? gameState.categories[gameState.currentCategory].category
+          : 'Warten - Code: ' + code
+      }}
+    </h1>
+    @if (gameState) {
+      <h1>Runde {{ round }}</h1>
+    } @else {
+      <div>
+        <app-settings />
+      </div>
+    }
   </div>
+
   <div class="wrapper">
     <div class="option-wrapper">
-      @if (round() === 0) {
-        <app-file-upload (categoriesLoaded)="categories = $event"></app-file-upload>
+      @if (!gameState) {
+        <app-file-upload (categoriesLoaded)="categories = $event" />
       } @else {
-        @for (answer of answers(); track $index) {
-          <button
-            class="option"
-            [class.revealed]="revealed()[$index]"
-            [class.just-revealed]="justRevealed() === $index"
-            [class.wrong]="wrong()[$index]"
-            (click)="reveal($index)"
-          >
-            <span class="option-front">???</span>
-            <span class="option-back">{{ answer }}</span>
-          </button>
-        }
+        <app-cards [isHost]="true" />
       }
     </div>
     <div style="margin-top: auto; margin-bottom: 3em">
-      <app-player-list [round]="round()"></app-player-list>
+      <app-player-list [isHost]="true" />
     </div>
   </div>
 
   <div class="footer">
-    @if (round() === 0) {
+    @if (!gameState) {
       <button
         class="btn"
-        (click)="start()"
-        [disabled]="categories.length === 0 || playerList().length === 0"
+        (click)="start(categories)"
+        [disabled]="!room()?.players?.length || categories.length === 0"
       >
-        Spiel Starten
+        Spiel starten
       </button>
     } @else if (
-      revealed().filter(r => r).length + wrong().filter(w => w).length < answers().length
+      wrongAnswers && 
+      gameState.revealedAnswers.filter(r => r).length + wrongAnswers.filter(w => w).length < gameState.categories[gameState.currentCategory].answers.length
     ) {
       <button class="btn" (click)="revealAll()">Alle aufdecken</button>
-    } @else if (round() >= categories.length) {
+    } @else if ((round ?? 0) >= room()!.gameState!.categories.length) {
       <button class="btn" (click)="showResults()">Zum Ergebnis</button>
     } @else {
       <button class="btn" (click)="nextRound()">Nächste Runde</button>
     }
-    <button class="btn" (click)="cancel()">Spiel beenden</button>
+    @if (gameState) {
+      <button class="btn" (click)="endGame()">Spiel beenden</button>
+    } @else {
+      <button class="btn" (click)="leave()">Spiel Verlassen</button>
+    }
   </div>
 </div>

@@ -1,7 +1,7 @@
-import { Component, effect, ElementRef, inject, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
 import { Player } from '../../models/player';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PlayerService } from '../../../core/player';
+import { SocketService } from '../../../core/socket';
 
 @Component({
   selector: 'app-player-list',
@@ -10,48 +10,40 @@ import { PlayerService } from '../../../core/player';
   styleUrl: './player-list.css',
 })
 export class PlayerList {
-  private playerService = inject(PlayerService);
+  private socket = inject(SocketService);
 
   @ViewChild('dialogAdd') dialogAdd!: ElementRef<HTMLDialogElement>;
-  round = input<number>(0);
-
-  constructor() {
-    effect(() => {
-      if (this.round() == 1) {
-        this.resetPlayer();
-      } else if (this.round() > 1) {
-        this.newRound();
-      }
-    });
-  }
+  isHost = input<boolean>(false);
+  isMobile = input<boolean>(false);
 
   name = new FormControl('', [Validators.required]);
 
-  maxHealth: number = 1;
-  playerList = this.playerService.players;
+  get round() {
+    return this.socket.room()?.round ?? 0;
+  }
+
+  get players() {
+    return this.socket.room()?.players ?? [];
+  }
+
+  get maxHealth() {
+    return this.socket.room()!.settings.maxHealth;
+  }
 
   reduceHealth(player: Player) {
-    this.playerService.reduceHealth(player);
-  }
-
-  resetPlayer() {
-    this.playerService.resetAll(this.maxHealth);
-  }
-
-  newRound() {
-    this.playerService.newRound(this.maxHealth);
+    if (this.isHost()) this.socket.reduceHealth(player.id);
   }
 
   deletePlayer(player: Player) {
-    this.playerService.removePlayer(player);
+    if (this.isHost()) this.socket.removePlayer(player.id);
   }
 
-  save() {
+  addPlayer() {
     if (this.name.value !== null) {
       if (this.name.value.trim() !== '') {
-        this.playerService.addPlayer(this.name.value, this.maxHealth);
-        this.closeAdd();
+        this.socket.addPlayer(this.name.value);
         this.name.setValue('');
+        this.closeAdd();
       }
     }
   }

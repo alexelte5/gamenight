@@ -3,8 +3,19 @@
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 16px 24px;
+  padding: 16px 0;
   width: 100%;
+}
+
+.player-list {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--text-muted);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 2em 1em 2em;
 }
 
 .player-card {
