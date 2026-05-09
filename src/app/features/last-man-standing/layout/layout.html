@@ -1,0 +1,15 @@
+@if (hostLeft()) {
+  <div class="popup-overlay">
+    <div class="popup">
+      <h2>Host hat die Lobby verlassen</h2>
+      <p>Die Lobby wurde geschlossen.</p>
+      <button class="btn" (click)="closePopup()">OK</button>
+    </div>
+  </div>
+}
+
+@if (isHost()) {
+  <app-game-host />
+} @else {
+  <app-user />
+}

@@ -1,6 +1,6 @@
 import { Component, inject, output } from '@angular/core';
 import { FileImport } from '../../../core/file-import';
-import { LmsData } from '../../models/lms-data';
+import { LmsData } from '../../../../../shared-types';
 
 @Component({
   selector: 'app-file-upload',
@@ -19,6 +19,8 @@ export class FileUpload {
     const file = input.files?.[0];
     if (!file) return;
     this.fileImportService.parseFile(file).then((data) => (this.fileName = data[0].filename));
-    this.fileImportService.parseFile(file).then((data) => {this.categoriesLoaded.emit(data)});
+    this.fileImportService.parseFile(file).then((data) => {
+      this.categoriesLoaded.emit(data);
+    });
   }
 }

@@ -1,0 +1,72 @@
+.settings {
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 2rem;
+  font-weight: 600;
+  width: 50%;
+  height: 75%;
+}
+
+.settings:hover {
+  cursor: pointer;
+}
+
+.dialogSettings {
+  width: 15vw;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 3em;
+}
+
+.select {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  gap: 0.5em;
+}
+
+.option {
+  border: 1px solid var(--text-muted);
+  border-radius: 3px;
+  background-color: var(--surface);
+  color: var(--text);
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+.option:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.active {
+  background-color: var(--active-bg);
+  border-color: var(--active);
+  scale: 1.2;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    text-align: start;
+  }
+
+  input {
+    height: 2em;
+    font-size: 1em;
+    background-color: var(--bg);
+    border: 1px solid var(--text-muted);
+    border-radius: 5px;
+    color: var(--text);
+    padding-left: 0.5em;
+  }
+}
