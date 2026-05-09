@@ -17,4 +17,6 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => console.log(`- disconnected: ${socket.id}`));
 });
 
-httpServer.listen(PORT, () => console.log(`🎮 Gamenight server running on :${PORT}`));
+httpServer.listen(PORT, () =>
+  console.log(`🎮 Gamenight server running on ${process.env.FRONTEND_URL}:${PORT}`),
+);
