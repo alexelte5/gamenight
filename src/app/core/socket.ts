@@ -10,6 +10,7 @@ export class SocketService {
   socketId = signal<string | null>(null);
   room = signal<Room | null>(null);
   error = signal<string | null>(null);
+  hostLeft = signal<boolean>(false);
 
   constructor() {
     const hostToken = localStorage.getItem('gamenight-hostToken');
@@ -44,6 +45,10 @@ export class SocketService {
       }
       this.reconnectToken = null; // Reset nach Verarbeitung
     });
+    this.socket.on('room:hostLeft', (r) => {
+      this.room.set(null);
+      this.hostLeft.set(true);
+    })
     this.socket.on('error', (msg) => this.error.set(msg));
   }
 

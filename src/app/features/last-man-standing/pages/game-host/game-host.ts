@@ -63,8 +63,8 @@ export class GameHost {
   }
 
   leave() {
-    this.socket.leaveRoom();
     localStorage.removeItem('gamenight-hostToken');
     window.location.href = '/';
+    this.socket.leaveRoom();
   }
 }

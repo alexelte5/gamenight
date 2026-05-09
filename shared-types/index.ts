@@ -63,6 +63,7 @@ export interface ServerEvents {
   'room:created': (room: Room) => void;
   'room:joined': (payload: { room: Room; token: string }) => void;
   'room:updated': (room: Room) => void;
+  'room:hostLeft': (room: Room) => void;
   'game:stateChanged': (room: Room) => void;
   error: (message: string) => void;
 }

@@ -24,6 +24,8 @@
   - remove players
 
 - host reconnect
+- host can leave lobby
+  - kick all players with message
 
 - players can leave lobby
 
@@ -32,9 +34,7 @@
 
 ## Not prioritized // necessarry (v1.0)
 
-- host
-  - leave
-    - kick all players with message (host left / room closed)
+- game switch
 
 - timer
 
@@ -43,10 +43,6 @@
 
 - doku, tutorial and release of website
   - version in local storage (popup of explanation if none)
-
-## Quality of life
-
-- header component
 
 ## game ideas
 

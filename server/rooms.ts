@@ -67,7 +67,11 @@ export function registerRoomHandlers(
 
   socket.on('room:leave', () => {
     const room = [...rooms.values()].find((r) => r.players.some((p) => p.id === socket.id));
-    if (room) {
+    const host = [...rooms.values()].find((r) => r.hostId === socket.id);
+    if (host) {
+      socket.to(host.code).emit('room:hostLeft', host);
+      rooms.delete(host.code);
+    } else if (room) {
       room.players = room.players.filter((p) => p.id !== socket.id);
       io.to(room.code).emit('room:updated', room);
     }

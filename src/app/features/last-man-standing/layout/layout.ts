@@ -1,4 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { GameHost } from '../pages/game-host/game-host';
 import { User } from '../pages/user/user';
 import { SocketService } from '../../../core/socket';
@@ -10,6 +11,13 @@ import { SocketService } from '../../../core/socket';
   styleUrl: './layout.css',
 })
 export class Layout {
+  private router = inject(Router);
   private socket = inject(SocketService);
   isHost = computed(() => this.socket.isHost());
+  hostLeft = computed(() => this.socket.hostLeft());
+
+  closePopup() {
+    this.socket.hostLeft.set(false);
+    this.router.navigate(['/']);
+  }
 }
