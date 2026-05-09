@@ -7,8 +7,9 @@ import type { ClientEvents, ServerEvents } from '../shared-types';
 const app = express();
 const httpServer = createServer(app);
 const io = new Server<ClientEvents, ServerEvents>(httpServer, {
-  cors: { origin: 'http://localhost:4200' },
+  cors: { origin: process.env.FRONTEND_URL || 'http://localhost:4200', methods: ['GET', 'POST'] },
 });
+const PORT = process.env.PORT || 3000;
 
 io.on('connection', (socket) => {
   console.log(`+ connected: ${socket.id}`);
@@ -16,4 +17,4 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => console.log(`- disconnected: ${socket.id}`));
 });
 
-httpServer.listen(3000, () => console.log('🎮 Gamenight server running on :3000'));
+httpServer.listen(PORT, () => console.log(`🎮 Gamenight server running on :${PORT}`));

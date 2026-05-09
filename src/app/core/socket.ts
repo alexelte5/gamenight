@@ -1,10 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import type { Room, ClientEvents, ServerEvents, LmsData } from '../../../shared-types';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
-  private socket: Socket<ServerEvents, ClientEvents> = io('http://localhost:3000');
+  private socket: Socket<ServerEvents, ClientEvents> = io(environment.serverUrl);
   private reconnectToken: string | null = null;
 
   socketId = signal<string | null>(null);
@@ -15,7 +16,7 @@ export class SocketService {
   constructor() {
     const hostToken = localStorage.getItem('gamenight-hostToken');
     const playerToken = localStorage.getItem('gamenight-token');
-    
+
     if (hostToken) {
       this.reconnectToken = hostToken;
       this.socket.emit('room:reconnect', hostToken);
@@ -48,7 +49,7 @@ export class SocketService {
     this.socket.on('room:hostLeft', (r) => {
       this.room.set(null);
       this.hostLeft.set(true);
-    })
+    });
     this.socket.on('error', (msg) => this.error.set(msg));
   }
 
@@ -56,7 +57,7 @@ export class SocketService {
     const room = this.room();
     const socketId = this.socketId();
     if (!room || !socketId) return false;
-    
+
     // Explizit: Nur Host wenn socketId gleich hostId ist
     return room.hostId === socketId;
   }
