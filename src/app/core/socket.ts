@@ -5,10 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
-  private socket: Socket<ServerEvents, ClientEvents> = io(environment.serverUrl, {
-    transports: ['websocket'],
-    upgrade: false,
-  });
+  private socket: Socket<ServerEvents, ClientEvents> = io(environment.serverUrl);
   private reconnectToken: string | null = null;
 
   socketId = signal<string | null>(null);
