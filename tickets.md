@@ -34,6 +34,8 @@
 
 ## Not prioritized // necessarry (v1.0)
 
+- spinner if server needs to start
+
 - game switch
 
 - timer
