@@ -36,6 +36,8 @@
 
 - spinner if server needs to start
 
+- proper server-logging for all events
+
 - game switch
 
 - timer
