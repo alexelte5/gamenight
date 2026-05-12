@@ -55,7 +55,7 @@ export class GameHost {
 
   showResults() {
     this.socket.results();
-    this.router.navigateByUrl('/results');
+    this.router.navigateByUrl(`/results/${this.code}`);
   }
 
   start(categories: LmsData[]) {

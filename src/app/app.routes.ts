@@ -11,7 +11,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/last-man-standing/layout/layout').then((m) => m.Layout),
   },
   {
-    path: 'results',
+    path: 'results/**',
     loadComponent: () =>
       import('./features/last-man-standing/pages/result/result').then((m) => m.Result),
   },
